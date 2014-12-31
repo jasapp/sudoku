@@ -1,0 +1,11 @@
+Sudoku Data Structure Ideas - 
+
+* A single array 
+
+* An array of nine arrays
+
+* A set for every constraint
+
+Constraint Checking -
+
+* Can we add a particular number to this group?
