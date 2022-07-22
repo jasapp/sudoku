@@ -9,3 +9,65 @@ Sudoku Data Structure Ideas -
 Constraint Checking -
 
 * Can we add a particular number to this group?
+
+
+# figuring out how to get the indices of neighbors in a box, given an index
+  00  01  02  |  03  04  05  |  06  07  08 
+  09  10  11  |  12  13  14  |  15  16  17 
+  18  19  20  |  21  22  23  |  24  25  26 
+ ----------------------------------------
+  27  28  29  |  30  31  32  |  33  34  35 
+  36  37  38  |  39  40  41  |  42  43  44 
+  45  46  47  |  48  49  50  |  51  52  53 
+ ----------------------------------------
+  54  55  56  |  57  58  59  |  60  61  62 
+  63  64  65  |  66  67  68  |  69  70  71 
+  72  73  74  |  75  76  77  |  78  79  80 
+
+
+0,0 | 1,0 | 2,0
+---------------
+0,1 | 1,1 | 2,1
+---------------
+0,2 | 1,2 | 2,2
+
+ 
+ [0, 0] box
+ [(9*0)+0, (9*0)+1  (9*0)+2
+  (9*1)+0, (9*1)+1, (9*1)+2,
+  (9*2)+0, (9*2)+1, (9*2)+2]
+ 
+ [0, 1] box
+ [(9*3)+0, (9*3)+1  (9*3)+2
+  (9*4)+0, (9*4)+1, (9*4)+2,   
+  (9*5)+0, (9*5)+1, (9*5)+2]
+ 
+ [2, 1] box
+ [(9*3)+6, (9*3)+7  (9*3)+8
+  (9*4)+6, (9*4)+7, (9*4)+8,   
+  (9*5)+6, (9*5)+7, (9*5)+8]
+ 
+ 
+30 -> [30, 31, 32,
+       39, 40, 41,
+       48, 49, 50]
+
+24 -> [06, 07, 08,
+       15, 16, 17,
+       24, 25, 26]
+
+71 -> [60, 61, 62,
+       69, 70, 71,
+       78, 79, 80]
+
+## 000 iterative/loop solution ideas
+have a loop with the following steps, looking at each cell:
+
+     0: loop through every cell:
+     1. does this cell have a value? if so, continue, otherwise:
+     2. look at row/col/box neighbors, see what value this cell could potentially have and set Cell.possible_values
+     3. find the cell with the smallest possible_values
+     3a if that length is 1, set value to that and goto 0
+     3b if that length is greater than 1, set and go back to step 0. see if any other row/col/box neighbors possible values have reduced,
+        3baa if reduced, goto 0
+        3bbb if not, pop action from stack and remove that value from possible_values (?)
